@@ -8,13 +8,13 @@ import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.ZooKeeper;
 
 public class ZKConnection {
-    private ZooKeeper zoo;
+    private ZooKeeper zookeeper;
     final CountDownLatch connectionLatch = new CountDownLatch(1);
 
     public ZooKeeper connect(String host) throws IOException,
             InterruptedException {
 
-        zoo = new ZooKeeper(host, 2000, new Watcher() {
+        zookeeper = new ZooKeeper(host, 2000, new Watcher() {
 
             public void process(WatchedEvent we) {
 
@@ -25,11 +25,11 @@ public class ZKConnection {
         });
 
         connectionLatch.await();
-        return zoo;
+        return zookeeper;
     }
 
     public void close() throws InterruptedException {
-        zoo.close();
+        zookeeper.close();
     }
 
 }
